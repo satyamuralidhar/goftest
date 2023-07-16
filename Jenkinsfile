@@ -6,11 +6,6 @@ pipeline {
                     slackSend channel: 'jenkins', color: 'green', failOnError: true, message: "STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", notifyCommitters: false, teamDomain: 'the-satya'
                 }
             }
-            stage("code checkout") {
-                steps {
-                    git branch: 'master', url: 'https://github.com/satyamuralidhar/spring-petclinic.git'
-                }
-            }
             stage("Unit Test") {
                 steps {
                     sh 'mvn test'

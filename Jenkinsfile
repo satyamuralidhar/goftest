@@ -8,7 +8,7 @@ pipeline {
             }
             stage("code checkout") {
                 steps {
-                    git branch: 'gameoflife-release-1.0.1', url: 'https://github.com/wakaleo/game-of-life.git'
+                    git branch: 'master', url: 'https://github.com/satyamuralidhar/spring-petclinic.git'
                 }
             }
             stage("Unit Test") {

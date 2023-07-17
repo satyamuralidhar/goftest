@@ -10,11 +10,7 @@ pipeline {
         stages {
             stage("Build Started") {
                 steps {
-                    slackSend channel: 'jenkins',
-                    color: 'green', 
-                    failOnError: true, 
-                    message: "STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", 
-                    notifyCommitters: false, teamDomain: 'the-satya'
+                    slackSend channel: 'jenkins',color: 'green', failOnError: true, message: "STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", notifyCommitters: false, teamDomain: 'the-satya'
                 }
             }
             stage("Unit Test") {

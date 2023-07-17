@@ -61,6 +61,14 @@ pipeline {
                     }
                 }
             }
+            stage("Docker Prune") {
+                steps {
+                    script{
+                        dockerPrune()
+                    }
+                }
+            }
+
         }
     post {
         success {

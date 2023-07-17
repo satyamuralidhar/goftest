@@ -1,3 +1,4 @@
+@Library('mavenjob')_
 pipeline {
     agent any 
     parameters {

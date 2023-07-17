@@ -48,7 +48,7 @@ pipeline {
             stage("Docker Build") {
                 steps {
                     script{
-                        dockerBuild("${params.username}","${params.imagename}","${params.imagetag}" .)
+                        dockerBuild("${params.username}","${params.imagename}","${params.imagetag}")
                     }
                 }
             }

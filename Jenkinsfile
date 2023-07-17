@@ -1,19 +1,40 @@
 pipeline {
     agent any 
+    parameters {
+        string(name: 'username',description: 'dockerHub userName',defaultValue: 'muralidhar123')
+        string(name: 'imagename',description: 'Java Application',defaultValue: 'javaapp')
+        string(name: 'imagetag',description: 'dockerHub userName',defaultValue: 'latest')
+
+    }
         stages {
-            stage("build started") {
+            stage("Workspace Clean") {
                 steps {
-                    slackSend channel: 'jenkins', color: 'green', failOnError: true, message: "STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", notifyCommitters: false, teamDomain: 'the-satya'
+                    script{
+                        cleanWS
+                    }
+                }
+            }
+            stage("Build Started") {
+                steps {
+                    slackSend channel: 'jenkins',
+                    color: 'green', 
+                    failOnError: true, 
+                    message: "STARTED: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", 
+                    notifyCommitters: false, teamDomain: 'the-satya'
                 }
             }
             stage("Unit Test") {
                 steps {
-                    sh 'mvn test'
+                    script{
+                        sh 'mvn test'
+                    }
                 }
             }
             stage("Integration Test") {
                 steps {
-                    sh 'mvn verify -DskipUnitTests'
+                    script{
+                        sh 'mvn verify -DskipUnitTests'
+                    }
                 }
             }
             stage("SCA Sonar") {
@@ -29,7 +50,22 @@ pipeline {
             stage("Quality Gates") {
                 steps {
                     script{
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonardocker'
+                        waitForQualityGate abortPipeline: false,
+                        credentialsId: 'sonardocker'
+                    }
+                }
+            }
+            stage("Docker Build") {
+                steps {
+                    script{
+                        dockerBuild("${params.username}","${params.imagename}","${params.imagetag}")
+                    }
+                }
+            }
+            stage("Docker Vulnerablity Scan") {
+                steps {
+                    script{
+                        snykScan("${params.username}","${params.imagename}","${params.imagetag}")
                     }
                 }
             }
@@ -40,7 +76,6 @@ pipeline {
 
         }
         failure {
-            cleanWS()
             slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         } 
     }    

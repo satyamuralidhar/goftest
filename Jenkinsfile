@@ -7,13 +7,6 @@ pipeline {
 
     }
         stages {
-            stage("Workspace Clean") {
-                steps {
-                    script{
-                        cleanWS()
-                    }
-                }
-            }
             stage("Build Started") {
                 steps {
                     slackSend channel: 'jenkins',

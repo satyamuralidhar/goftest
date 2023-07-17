@@ -3,15 +3,10 @@ pipeline {
     parameters {
         string(name: 'username',description: 'dockerHub userName',defaultValue: 'muralidhar123')
         string(name: 'imagename',description: 'Java Application',defaultValue: 'javaapp')
-        string(name: 'imagetag',description: 'dockerHub userName',defaultValue: 'latest')
+        string(name: 'imagetag',description: 'dockerHub userName',defaultValue: 'v1')
 
     }
         stages {
-            stage("clean WS") {
-                steps {
-                    cleanWS()
-                }
-            }
             stage("Build Started") {
                 steps {
                     slackSend channel: 'jenkins',

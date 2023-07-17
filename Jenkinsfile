@@ -1,8 +1,9 @@
 @Library('mavenjob')_
 pipeline {
-    agent {
-        label 'slave'
-    }
+    agent any
+    // agent {
+    //     label 'slave'
+    // }
     parameters {
         string(name: 'username',description: 'dockerHub userName',defaultValue: 'muralidhar123')
         string(name: 'imagename',description: 'Java Application',defaultValue: 'javaapp')
